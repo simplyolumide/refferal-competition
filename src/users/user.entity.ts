@@ -1,8 +1,14 @@
-
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
- import { Exclude } from 'class-transformer';
-
-
+import {
+  Column,
+  Entity,
+  Generated,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 class User {
@@ -29,14 +35,15 @@ class User {
   @Column({ default: 0 })
   balance: number;
 
-  @Column({ nullable: true })
-  referrerId: number;
+  @Column()
+  @Generated('uuid')
+  referrerId: string;
 
-  @ManyToOne(type => User, user => user.referees)
+  @ManyToOne((type) => User, (user) => user.referees)
   @JoinColumn({ name: 'referrer_id' })
-  referrer: User | null
+  referrer: User | null;
 
-  @OneToMany(type => User, user => user.referrer)
+  @OneToMany((type) => User, (user) => user.referrer)
   referees: User[];
 }
 
